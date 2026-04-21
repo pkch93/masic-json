@@ -1,0 +1,65 @@
+:root {
+  /* Colors - The Synthetic Luminal */
+  --ds-color-background: #0e0e10;
+  --ds-color-primary: #b89fff;
+  --ds-color-primary-container: #ac8eff;
+  --ds-color-secondary: #00e3fd;
+  --ds-color-secondary-container: #006875;
+  --ds-color-tertiary: #ff96bb;
+  --ds-color-tertiary-container: #fb81ae;
+
+  /* Surfaces */
+  --ds-color-surface: #0e0e10;
+  --ds-color-surface-bright: #2c2c2f;
+  --ds-color-surface-container-lowest: #000000;
+  --ds-color-surface-container-low: #131315;
+  --ds-color-surface-container: #19191c;
+  --ds-color-surface-container-high: #1f1f22;
+  --ds-color-surface-container-highest: #262528;
+
+  /* On Colors (Text) */
+  --ds-color-on-background: #f6f3f5;
+  --ds-color-on-surface: #f6f3f5;
+  --ds-color-on-surface-variant: #acaaad;
+  --ds-color-on-primary: #37008e;
+  --ds-color-on-secondary: #004d57;
+  --ds-color-on-tertiary: #690939;
+
+  /* Outlines & Utilities */
+  --ds-color-outline: #767577;
+  --ds-color-outline-variant: #48474a;
+  --ds-color-surface-tint: #b89fff;
+  --ds-color-error: #ff6e84;
+
+  /* Typography */
+  --ds-font-headline: 'Space Grotesk', sans-serif;
+  --ds-font-body: 'Inter', sans-serif;
+  --ds-font-code: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Font Sizes */
+  --ds-font-size-display-lg: 3.5rem;
+  --ds-font-size-headline-sm: 1.5rem;
+  --ds-font-size-title-md: 1.125rem;
+  --ds-font-size-body-md: 0.875rem;
+  --ds-font-size-label-sm: 0.6875rem;
+
+  /* Radius */
+  --ds-radius-sm: 0.25rem;
+  --ds-radius-md: 0.375rem;
+  --ds-radius-lg: 0.75rem;
+  --ds-radius-full: 9999px;
+
+  /* Spacing */
+  --ds-spacing-1: 0.25rem;
+  --ds-spacing-2: 0.5rem;
+  --ds-spacing-3: 0.75rem;
+  --ds-spacing-4: 1rem;
+  --ds-spacing-6: 1.5rem;
+  --ds-spacing-8: 2rem;
+  --ds-spacing-12: 3rem;
+
+  /* Effects */
+  --ds-blur-glass: 20px;
+  --ds-opacity-glass: 0.7;
+  --ds-shadow-ambient: 0 0 32px 0 rgba(184, 159, 255, 0.08);
+}

@@ -1,0 +1,42 @@
+@import './tokens.css';
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  background-color: var(--ds-color-background);
+  color: var(--ds-color-on-background);
+  font-family: var(--ds-font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* No-Line Surface Architecture */
+.surface-low { background-color: var(--ds-color-surface-container-low); }
+.surface-base { background-color: var(--ds-color-surface-container); }
+.surface-high { background-color: var(--ds-color-surface-container-high); }
+.surface-highest { background-color: var(--ds-color-surface-container-highest); }
+
+/* Glassmorphism utility */
+.glass {
+  background-color: rgba(31, 31, 34, var(--ds-opacity-glass));
+  backdrop-filter: blur(var(--ds-blur-glass));
+  -webkit-backdrop-filter: blur(var(--ds-blur-glass));
+}
+
+/* Selection style */
+::selection {
+  background-color: rgba(184, 159, 255, 0.2);
+  color: var(--ds-color-primary);
+}
+
+/* Transitions */
+button, input, a {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
