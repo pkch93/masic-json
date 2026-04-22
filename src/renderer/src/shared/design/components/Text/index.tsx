@@ -1,4 +1,5 @@
 import React from 'react'
+import './text.css'
 
 interface TextProps {
   children: React.ReactNode
@@ -50,13 +51,6 @@ export const Text: React.FC<TextProps> = ({
       className={`${getVariantClass()} ${className}`}
       style={{ color: getColorStyle(), ...style }}
     >
-      <style>{`
-        .ds-text-display { font-family: var(--ds-font-headline); font-size: var(--ds-font-size-display-lg); font-weight: 700; line-height: 1.1; }
-        .ds-text-headline { font-family: var(--ds-font-headline); font-size: var(--ds-font-size-headline-sm); font-weight: 500; }
-        .ds-text-title { font-family: var(--ds-font-body); font-size: var(--ds-font-size-title-md); font-weight: 600; }
-        .ds-text-body { font-family: var(--ds-font-body); font-size: var(--ds-font-size-body-md); font-weight: 400; line-height: 1.5; }
-        .ds-text-label { font-family: var(--ds-font-body); font-size: var(--ds-font-size-label-sm); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
-      `}</style>
       {children}
     </span>
   )

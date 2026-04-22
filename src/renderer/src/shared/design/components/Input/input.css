@@ -1,0 +1,65 @@
+.ds-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-spacing-2);
+  width: 100%;
+}
+
+.ds-input-label {
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-on-surface-variant);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ds-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ds-input {
+  width: 100%;
+  background-color: var(--ds-color-surface-container-low);
+  border: none;
+  padding: var(--ds-spacing-3) var(--ds-spacing-4);
+  color: var(--ds-color-on-surface);
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-font-size-body-md);
+  border-radius: var(--ds-radius-md);
+  outline: none;
+  transition: background-color 0.2s ease;
+}
+
+.ds-input:focus {
+  background-color: var(--ds-color-surface-container-high);
+}
+
+.ds-input-focus-bar {
+  position: absolute;
+  left: 0;
+  top: 25%;
+  height: 50%;
+  width: 2px;
+  background-color: var(--ds-color-primary);
+  opacity: 0;
+  transition: all 0.2s ease;
+  border-radius: var(--ds-radius-full);
+}
+
+.ds-input:focus + .ds-input-focus-bar {
+  opacity: 1;
+  height: 60%;
+  top: 20%;
+}
+
+.ds-input-error {
+  border-left: 2px solid var(--ds-color-error);
+}
+
+.ds-input-error-text {
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-error);
+}

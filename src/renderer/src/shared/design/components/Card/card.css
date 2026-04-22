@@ -1,0 +1,26 @@
+.surface-low     { background-color: var(--ds-color-surface-container-low); }
+.surface-base    { background-color: var(--ds-color-surface-container); }
+.surface-high    { background-color: var(--ds-color-surface-container-high); }
+.surface-highest { background-color: var(--ds-color-surface-container-highest); }
+
+.glass {
+  background-color: rgba(31, 31, 34, var(--ds-opacity-glass));
+  backdrop-filter: blur(var(--ds-blur-glass));
+  -webkit-backdrop-filter: blur(var(--ds-blur-glass));
+}
+
+.ds-card {
+  border-radius: var(--ds-radius-lg);
+  transition: background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ds-card-padding {
+  padding: var(--ds-spacing-6);
+}
+
+.ds-card-floating {
+  box-shadow: var(--ds-shadow-ambient);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}

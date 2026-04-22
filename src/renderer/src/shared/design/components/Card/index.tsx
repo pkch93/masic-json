@@ -1,4 +1,5 @@
 import React from 'react'
+import './card.css'
 
 interface CardProps {
   children: React.ReactNode
@@ -35,23 +36,6 @@ export const Card: React.FC<CardProps> = ({
       className={`ds-card ${getVariantClass()} ${padding ? 'ds-card-padding' : ''} ${className}`}
       style={style}
     >
-      <style>{`
-        .ds-card {
-          border-radius: var(--ds-radius-lg);
-          transition: background-color 0.3s ease;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .ds-card-padding {
-          padding: var(--ds-spacing-6);
-        }
-
-        .ds-card-floating {
-          box-shadow: var(--ds-shadow-ambient);
-          border: 1px solid rgba(255, 255, 255, 0.05); /* Ghost border fallback */
-        }
-      `}</style>
       {children}
     </div>
   )
