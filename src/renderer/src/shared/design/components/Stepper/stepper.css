@@ -1,0 +1,41 @@
+.ds-stepper {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--ds-color-surface-container-highest);
+  border-radius: var(--ds-radius-sm);
+  overflow: hidden;
+}
+
+.ds-stepper__btn {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--ds-color-on-surface-variant);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: var(--ds-font-body);
+  transition: color 0.15s, background-color 0.15s;
+  line-height: 1;
+}
+
+.ds-stepper__btn:hover:not(:disabled) {
+  color: var(--ds-color-on-surface);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.ds-stepper__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ds-stepper__value {
+  width: 24px;
+  text-align: center;
+  font-family: var(--ds-font-code);
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-on-surface);
+}

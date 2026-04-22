@@ -1,0 +1,61 @@
+.ds-navbar {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-6);
+  height: 32px;
+  padding: 0 var(--ds-spacing-4);
+  background-color: var(--ds-color-surface-container-lowest);
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+}
+
+.ds-navbar__title {
+  font-family: var(--ds-font-headline);
+  font-size: var(--ds-font-size-body-md);
+  font-weight: 700;
+  color: var(--ds-color-on-surface);
+  letter-spacing: -0.01em;
+  -webkit-app-region: no-drag;
+}
+
+.ds-navbar__tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-1);
+  -webkit-app-region: no-drag;
+}
+
+.ds-navbar__tab {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--ds-font-body);
+  font-size: 0.6875rem;
+  color: var(--ds-color-on-surface-variant);
+  padding: var(--ds-spacing-1) var(--ds-spacing-3);
+  border-radius: var(--ds-radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  position: relative;
+  transition: color 0.15s;
+}
+
+.ds-navbar__tab:hover {
+  color: var(--ds-color-on-surface);
+}
+
+.ds-navbar__tab--active {
+  color: var(--ds-color-on-surface);
+}
+
+.ds-navbar__tab--active::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -2px;
+  left: var(--ds-spacing-3);
+  right: var(--ds-spacing-3);
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--ds-color-primary), var(--ds-color-primary-container));
+  border-radius: var(--ds-radius-full);
+}

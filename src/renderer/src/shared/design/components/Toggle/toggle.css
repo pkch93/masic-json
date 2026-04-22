@@ -1,0 +1,49 @@
+.ds-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-spacing-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.ds-toggle--row {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.ds-toggle__label {
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-on-surface);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ds-toggle__track {
+  width: 28px;
+  height: 14px;
+  background-color: var(--ds-color-surface-container-highest);
+  border-radius: var(--ds-radius-full);
+  position: relative;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.ds-toggle__track--on {
+  background-color: var(--ds-color-secondary);
+}
+
+.ds-toggle__thumb {
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ds-toggle__track--on .ds-toggle__thumb {
+  transform: translateX(14px);
+}
