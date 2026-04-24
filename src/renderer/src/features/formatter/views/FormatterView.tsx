@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react'
 import { Button, Toggle, Stepper } from '../../../shared/design'
 import { JsonEditor } from '../components/JsonEditor'
 import { JsonTreeView } from '../components/JsonTreeView'
+import { CommandPalette } from '../components/CommandPalette'
+import type { PaletteAction } from '../components/CommandPalette'
 import { QueryView } from '../../query/views/QueryView'
 import { SortView } from '../../sort/views/SortView'
 import { useFormatterViewModel } from '../viewmodels/useFormatterViewModel'
+import { useDoubleShift } from '../viewmodels/useDoubleShift'
 import type { IndentSize } from '../models/formatter.model'
 import type { HistoryEntry, HistoryOperation } from '../../history/models/history.model'
 import { formatRelativeTime, formatByteSize } from '../../history/services/history.service'
@@ -52,6 +55,21 @@ export function FormatterView({
   const [sidebarTab, setSidebarTab] = useState<SidebarTab>('config')
   const [bottomCollapsed, setBottomCollapsed] = useState(false)
   const [bottomHeight, setBottomHeight] = useState(DEFAULT_BOTTOM_HEIGHT)
+  const [paletteOpen, setPaletteOpen] = useState(false)
+
+  useDoubleShift(() => setPaletteOpen((prev) => !prev))
+
+  const paletteActions: PaletteAction[] = [
+    { id: 'format', label: 'Format JSON', icon: 'format_align_left', onExecute: format },
+    { id: 'minify', label: 'Minify JSON', icon: 'compress', onExecute: minify },
+    {
+      id: 'copy',
+      label: 'Copy Content',
+      icon: 'content_copy',
+      onExecute: () => navigator.clipboard.writeText(rawJson)
+    },
+    { id: 'clear', label: 'Clear All', icon: 'delete_sweep', onExecute: clear }
+  ]
 
   useEffect(() => {
     if (pendingLoad != null) {
@@ -264,6 +282,12 @@ export function FormatterView({
           </div>
         )}
       </div>
+
+      <CommandPalette
+        open={paletteOpen}
+        onClose={() => setPaletteOpen(false)}
+        actions={paletteActions}
+      />
     </div>
   )
 }
