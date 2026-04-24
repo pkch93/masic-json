@@ -16,11 +16,14 @@ export function useQueryViewModel(): QueryViewModel {
 
   const setExpression = useCallback((expression: string) => {
     setQuery({ expression })
-    setResult(null)
   }, [])
 
   const evaluate = useCallback(
     (json: string) => {
+      if (!json.trim()) {
+        setResult(null)
+        return
+      }
       setResult(evaluateJsonPath(json, query.expression))
     },
     [query.expression]

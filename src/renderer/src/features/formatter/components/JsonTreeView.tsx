@@ -16,8 +16,8 @@ function extractTopLevel(value: string): TreeNode[] {
     if (typeof parsed !== 'object' || parsed === null) return []
 
     const entries = Array.isArray(parsed)
-      ? parsed.slice(0, 8).map((v, i) => [String(i), v] as [string, unknown])
-      : (Object.entries(parsed).slice(0, 8) as [string, unknown][])
+      ? parsed.slice(0, 20).map((v, i) => [String(i), v] as [string, unknown])
+      : (Object.entries(parsed).slice(0, 20) as [string, unknown][])
 
     return entries.map(([key, val]) => {
       if (val === null) return { key, type: 'null', preview: 'null' }

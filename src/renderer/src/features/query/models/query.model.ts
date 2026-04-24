@@ -4,5 +4,6 @@ export interface JsonPathQuery {
 
 export interface QueryResult {
   values: unknown[]
+  paths: string[]
   error: string | null
 }

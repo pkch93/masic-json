@@ -7,7 +7,6 @@ interface FormatterViewModel {
   indent: IndentSize
   isValid: boolean
   formatError: ParseError | null
-  sortKeys: boolean
   doubleQuotes: boolean
   strictMode: boolean
   allowComments: boolean
@@ -19,7 +18,6 @@ interface FormatterViewModel {
   clear: () => void
   saveConfig: () => void
   setIndent: (indent: IndentSize) => void
-  setSortKeys: (v: boolean) => void
   setDoubleQuotes: (v: boolean) => void
   setStrictMode: (v: boolean) => void
   setAllowComments: (v: boolean) => void
@@ -29,20 +27,24 @@ interface FormatterViewModel {
 
 const STORAGE_KEY = 'masic-json:editor-config'
 
-function loadConfig(): { indent: IndentSize; sortKeys: boolean; doubleQuotes: boolean } {
+function loadConfig(): { indent: IndentSize; doubleQuotes: boolean } {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) return JSON.parse(stored)
+    if (stored) {
+      const parsed = JSON.parse(stored)
+      return { indent: parsed.indent ?? 2, doubleQuotes: parsed.doubleQuotes ?? true }
+    }
   } catch {}
-  return { indent: 2, sortKeys: false, doubleQuotes: true }
+  return { indent: 2, doubleQuotes: true }
 }
 
-export function useFormatterViewModel(): FormatterViewModel {
+export function useFormatterViewModel(
+  onSave?: (json: string, operation: 'format' | 'minify') => void
+): FormatterViewModel {
   const saved = useMemo(loadConfig, [])
 
   const [rawJson, setRawJson] = useState('')
   const [indent, setIndent] = useState<IndentSize>(saved.indent)
-  const [sortKeys, _setSortKeys] = useState(saved.sortKeys)
   const [doubleQuotes, setDoubleQuotes] = useState(saved.doubleQuotes)
   const [strictMode, _setStrictMode] = useState(true)
   const [allowComments, _setAllowComments] = useState(false)
@@ -50,25 +52,16 @@ export function useFormatterViewModel(): FormatterViewModel {
   const [preserveOrder, _setPreserveOrder] = useState(true)
   const [formatError, setFormatError] = useState<ParseError | null>(null)
 
-  // Derive isValid from the same service path used at format time
   const isValid = useMemo(() => {
     if (!rawJson.trim()) return false
-    const result = formatJson(rawJson, { indent, sortKeys })
+    const result = formatJson(rawJson, { indent, sortKeys: false })
     return result.isValid
-  }, [rawJson, indent, sortKeys])
-
-  // Mutual exclusion: Sort Keys ↔ Preserve Order
-  const setSortKeys = useCallback((v: boolean) => {
-    _setSortKeys(v)
-    if (v) _setPreserveOrder(false)
-  }, [])
+  }, [rawJson, indent])
 
   const setPreserveOrder = useCallback((v: boolean) => {
     _setPreserveOrder(v)
-    if (v) _setSortKeys(false)
   }, [])
 
-  // Mutual exclusion: Strict Mode ↔ Allow Comments
   const setStrictMode = useCallback((v: boolean) => {
     _setStrictMode(v)
     if (v) _setAllowComments(false)
@@ -80,24 +73,26 @@ export function useFormatterViewModel(): FormatterViewModel {
   }, [])
 
   const format = useCallback(() => {
-    const result = formatJson(rawJson, { indent, sortKeys })
+    const result = formatJson(rawJson, { indent, sortKeys: false })
     if (result.formatted !== null) {
       setRawJson(result.formatted)
       setFormatError(null)
+      onSave?.(result.formatted, 'format')
     } else {
       setFormatError(result.error)
     }
-  }, [rawJson, indent, sortKeys])
+  }, [rawJson, indent, onSave])
 
   const minify = useCallback(() => {
     const result = minifyJson(rawJson)
     if (result.formatted !== null) {
       setRawJson(result.formatted)
       setFormatError(null)
+      onSave?.(result.formatted, 'minify')
     } else {
       setFormatError(result.error)
     }
-  }, [rawJson])
+  }, [rawJson, onSave])
 
   const clear = useCallback(() => {
     setRawJson('')
@@ -105,24 +100,22 @@ export function useFormatterViewModel(): FormatterViewModel {
   }, [])
 
   const saveConfig = useCallback(() => {
-    const config = { indent, sortKeys, doubleQuotes }
+    const config = { indent, doubleQuotes }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(config))
-    // Reformat with current config if document is valid
     if (rawJson.trim()) {
-      const result = formatJson(rawJson, { indent, sortKeys })
+      const result = formatJson(rawJson, { indent, sortKeys: false })
       if (result.formatted !== null) {
         setRawJson(result.formatted)
         setFormatError(null)
       }
     }
-  }, [indent, sortKeys, doubleQuotes, rawJson])
+  }, [indent, doubleQuotes, rawJson])
 
   return {
     rawJson,
     indent,
     isValid,
     formatError,
-    sortKeys,
     doubleQuotes,
     strictMode,
     allowComments,
@@ -134,7 +127,6 @@ export function useFormatterViewModel(): FormatterViewModel {
     clear,
     saveConfig,
     setIndent,
-    setSortKeys,
     setDoubleQuotes,
     setStrictMode,
     setAllowComments,

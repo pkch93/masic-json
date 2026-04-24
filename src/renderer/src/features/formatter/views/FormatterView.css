@@ -95,17 +95,59 @@
   flex-direction: column;
 }
 
-.formatter-sidebar__header {
-  padding: var(--ds-spacing-4) var(--ds-spacing-4) var(--ds-spacing-2);
+/* ── Sidebar panel toggle ──────────────────────────────── */
+.formatter-sidebar__toggle {
+  display: flex;
+  gap: var(--ds-spacing-1);
+  padding: var(--ds-spacing-3) var(--ds-spacing-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
 }
 
-.formatter-sidebar__label {
+.formatter-sidebar__toggle-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-spacing-1);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--ds-radius-sm);
+  cursor: pointer;
   font-family: var(--ds-font-body);
   font-size: var(--ds-font-size-label-sm);
   color: var(--ds-color-on-surface-variant);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: var(--ds-spacing-1) var(--ds-spacing-2);
+  transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+}
+
+.formatter-sidebar__toggle-btn:hover:not(.formatter-sidebar__toggle-btn--active) {
+  color: var(--ds-color-on-surface);
+  background-color: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.formatter-sidebar__toggle-btn--active {
+  color: var(--ds-color-primary);
+  background-color: rgba(184, 159, 255, 0.1);
+  border-color: rgba(184, 159, 255, 0.2);
+}
+
+.formatter-sidebar__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: var(--ds-radius-full);
+  background-color: rgba(184, 159, 255, 0.25);
+  color: var(--ds-color-primary);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0;
 }
 
 .formatter-sidebar__nav {
@@ -192,37 +234,240 @@
 /* ── Bottom panel ──────────────────────────────────────── */
 .formatter-bottom {
   display: flex;
-  height: 130px;
-  flex-shrink: 0;
-}
-
-.formatter-bottom__section {
-  flex: 1;
-  padding: var(--ds-spacing-3) var(--ds-spacing-4);
-  display: flex;
   flex-direction: column;
-  gap: var(--ds-spacing-2);
+  flex-shrink: 0;
   background-color: var(--ds-color-surface-container-low);
-  overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
-.formatter-bottom__section:last-child {
-  background-color: var(--ds-color-surface-container);
+/* ── Resize handle ─────────────────────────────────────── */
+.formatter-resize-handle {
+  height: 5px;
+  flex-shrink: 0;
+  cursor: row-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ds-color-surface-container-low);
+  transition: background-color 0.15s;
 }
 
-.formatter-section-label {
+.formatter-resize-handle:hover {
+  background-color: var(--ds-color-surface-container-high);
+}
+
+.formatter-resize-handle::after {
+  content: '';
+  width: 36px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 1px;
+  transition: background-color 0.15s;
+}
+
+.formatter-resize-handle:hover::after {
+  background-color: var(--ds-color-primary);
+  opacity: 0.6;
+}
+
+/* ── Bottom panel tabs ─────────────────────────────────── */
+.formatter-bottom-tabs {
+  display: flex;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 0 var(--ds-spacing-2);
+}
+
+.formatter-bottom-tab {
+  background: transparent;
+  border: none;
+  cursor: pointer;
   font-family: var(--ds-font-body);
   font-size: var(--ds-font-size-label-sm);
   color: var(--ds-color-on-surface-variant);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: var(--ds-spacing-2) var(--ds-spacing-3);
+  position: relative;
+  transition: color 0.15s;
+}
+
+.formatter-bottom-tab:hover {
+  color: var(--ds-color-on-surface);
+}
+
+.formatter-bottom-tab--active {
+  color: var(--ds-color-on-surface);
+}
+
+.formatter-bottom-tab--active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ds-color-primary), var(--ds-color-secondary));
+  border-radius: var(--ds-radius-full) var(--ds-radius-full) 0 0;
+}
+
+/* ── Bottom content ────────────────────────────────────── */
+.formatter-bottom-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.formatter-tree-wrapper {
+  flex: 1;
+  overflow: auto;
+  padding: var(--ds-spacing-3) var(--ds-spacing-4);
+}
+
+/* ── Bottom panel collapse ─────────────────────────────── */
+.formatter-bottom--collapsed {
+  height: auto !important;
   flex-shrink: 0;
 }
 
-.formatter-parsing-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--ds-spacing-2) var(--ds-spacing-6);
+.formatter-bottom-collapse-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.5rem;
+  color: var(--ds-color-on-surface-variant);
+  padding: var(--ds-spacing-2) var(--ds-spacing-3);
+  transition: color 0.15s;
+  line-height: 1;
+}
+
+.formatter-bottom-collapse-btn:hover {
+  color: var(--ds-color-on-surface);
+}
+
+/* ── Sidebar history panel ─────────────────────────────── */
+.formatter-sidebar__history {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.formatter-history-header {
+  display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: var(--ds-spacing-2) var(--ds-spacing-4) var(--ds-spacing-2) var(--ds-spacing-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
+}
+
+.formatter-history-count {
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.formatter-history-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--ds-spacing-6) var(--ds-spacing-4);
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-on-surface-variant);
+  line-height: 1.6;
+}
+
+.formatter-history-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.formatter-history-entry {
+  padding: var(--ds-spacing-2) var(--ds-spacing-4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: background-color 0.12s;
+}
+
+.formatter-history-entry:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.formatter-history-entry__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ds-spacing-1);
+  margin-bottom: var(--ds-spacing-1);
+}
+
+.formatter-history-entry__label {
+  font-family: var(--ds-font-code);
+  font-size: 0.625rem;
+  color: var(--ds-color-on-surface);
+  line-height: 1.5;
+  word-break: break-all;
+  flex: 1;
+}
+
+.formatter-history-entry__delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--ds-color-on-surface-variant);
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 1px 2px;
+  flex-shrink: 0;
+  transition: color 0.12s;
+  border-radius: var(--ds-radius-sm);
+}
+
+.formatter-history-entry__delete:hover {
+  color: var(--ds-color-error);
+  background-color: rgba(255, 110, 132, 0.1);
+}
+
+.formatter-history-entry__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-1);
+}
+
+.formatter-history-badge {
+  font-family: var(--ds-font-body);
+  font-size: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1px 5px;
+  border-radius: var(--ds-radius-full);
+}
+
+.formatter-history-badge--format {
+  color: var(--ds-color-secondary);
+  background-color: rgba(0, 227, 253, 0.1);
+}
+
+.formatter-history-badge--minify {
+  color: var(--ds-color-tertiary);
+  background-color: rgba(255, 150, 187, 0.1);
+}
+
+.formatter-history-entry__time,
+.formatter-history-entry__size {
+  font-family: var(--ds-font-body);
+  font-size: 0.5rem;
+  color: var(--ds-color-on-surface-variant);
 }

@@ -30,7 +30,8 @@
     "@electron-toolkit/utils": "^4.0.0",
     "@lezer/highlight": "^1.2.3",
     "codemirror": "^6.0.2",
-    "electron-updater": "^6.3.9"
+    "electron-updater": "^6.3.9",
+    "jsonpath-plus": "^10.4.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",

@@ -1,0 +1,150 @@
+/* ── Layout ────────────────────────────────────────────── */
+.history-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Header ────────────────────────────────────────────── */
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 36px;
+  padding: 0 var(--ds-spacing-4);
+  background-color: var(--ds-color-surface-container-high);
+  flex-shrink: 0;
+}
+
+.history-header__label {
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+}
+
+/* ── List ──────────────────────────────────────────────── */
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--ds-spacing-3) var(--ds-spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-spacing-2);
+}
+
+.history-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ds-font-body);
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-on-surface-variant);
+  opacity: 0.5;
+}
+
+/* ── Entry card ────────────────────────────────────────── */
+.history-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--ds-spacing-3);
+  background-color: var(--ds-color-surface-container-high);
+  border-radius: var(--ds-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+  position: relative;
+}
+
+.history-entry:hover {
+  background-color: var(--ds-color-surface-container-highest);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.history-entry__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ds-spacing-2);
+  min-width: 0;
+}
+
+.history-entry__label {
+  font-family: var(--ds-font-code);
+  font-size: var(--ds-font-size-label-sm);
+  color: var(--ds-color-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.history-entry__delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--ds-color-on-surface-variant);
+  font-size: 0.875rem;
+  line-height: 1;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ds-radius-full);
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, background-color 0.15s;
+}
+
+.history-entry:hover .history-entry__delete {
+  opacity: 1;
+}
+
+.history-entry__delete:hover {
+  color: var(--ds-color-error);
+  background-color: rgba(255, 110, 132, 0.1);
+}
+
+.history-entry__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-2);
+  flex-wrap: wrap;
+}
+
+.history-entry__time,
+.history-entry__size {
+  font-family: var(--ds-font-body);
+  font-size: 0.625rem;
+  color: var(--ds-color-on-surface-variant);
+  opacity: 0.6;
+}
+
+/* ── Badges ────────────────────────────────────────────── */
+.history-badge {
+  font-family: var(--ds-font-body);
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 2px 8px;
+  border-radius: var(--ds-radius-full);
+}
+
+.history-badge--format {
+  color: var(--ds-color-primary);
+  background-color: rgba(130, 80, 255, 0.12);
+}
+
+.history-badge--minify {
+  color: var(--ds-color-secondary);
+  background-color: rgba(0, 227, 253, 0.1);
+}

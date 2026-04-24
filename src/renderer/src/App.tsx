@@ -1,47 +1,20 @@
-import { useState } from 'react'
-import { NavBar, Text } from './shared/design'
+import { NavBar } from './shared/design'
 import { FormatterView } from './features/formatter/views/FormatterView'
-
-const NAV_TABS = [
-  { id: 'editor', label: 'Editor' },
-  { id: 'history', label: 'History' },
-  { id: 'settings', label: 'Settings' }
-] as const
-
-type NavTabId = (typeof NAV_TABS)[number]['id']
-
-function PlaceholderView({ title }: { title: string }): React.JSX.Element {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 1,
-        color: 'var(--ds-color-on-surface-variant)'
-      }}
-    >
-      <Text variant="body" color="dim">
-        {title} — coming soon
-      </Text>
-    </div>
-  )
-}
+import { useHistoryViewModel } from './features/history/viewmodels/useHistoryViewModel'
 
 function App(): React.JSX.Element {
-  const [activeTab, setActiveTab] = useState<NavTabId>('editor')
+  const { entries, addEntry, deleteEntry, clearAll } = useHistoryViewModel()
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <NavBar
-        tabs={[...NAV_TABS]}
-        activeTab={activeTab}
-        onTabChange={(id) => setActiveTab(id as NavTabId)}
-      />
+      <NavBar />
       <main style={{ flex: 1, minHeight: 0, display: 'flex' }}>
-        {activeTab === 'editor' && <FormatterView />}
-        {activeTab === 'history' && <PlaceholderView title="History" />}
-        {activeTab === 'settings' && <PlaceholderView title="Settings" />}
+        <FormatterView
+          onSave={addEntry}
+          historyEntries={entries}
+          onDeleteHistory={deleteEntry}
+          onClearHistory={clearAll}
+        />
       </main>
     </div>
   )
