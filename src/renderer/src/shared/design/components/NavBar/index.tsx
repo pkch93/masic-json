@@ -14,14 +14,15 @@ interface NavBarProps {
 }
 
 export const NavBar: React.FC<NavBarProps> = ({
-  title = 'magic-json',
   tabs = [],
   activeTab,
   onTabChange
 }) => {
   return (
     <nav className="ds-navbar">
-      <span className="ds-navbar__title">{title}</span>
+      <div className="ds-navbar__title">
+        <span className="ds-navbar__logo">{'{ }'}</span>
+      </div>
       <div className="ds-navbar__tabs">
         {tabs.map((tab) => (
           <button
