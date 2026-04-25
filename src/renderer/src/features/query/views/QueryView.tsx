@@ -1,4 +1,4 @@
-import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import { useEffect, useRef, useImperativeHandle, useMemo, forwardRef } from 'react'
 import { Button } from '../../../shared/design'
 import { useQueryViewModel } from '../viewmodels/useQueryViewModel'
 import './QueryView.css'
@@ -24,6 +24,35 @@ export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function Qu
 
   const hasJson = json.trim().length > 0
   const hasExpression = query.expression.trim().length > 0
+
+  const dynamicPlaceholder = useMemo(() => {
+    if (!hasJson) return '.store.book[*].title'
+    try {
+      const parsed = JSON.parse(json)
+      if (Array.isArray(parsed) && parsed.length > 0 && typeof parsed[0] === 'object' && parsed[0] !== null) {
+        const firstKey = Object.keys(parsed[0])[0]
+        if (firstKey) return `[*].${firstKey}`
+      }
+      if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
+        const firstKey = Object.keys(parsed)[0]
+        if (firstKey) {
+          const nested = parsed[firstKey]
+          if (typeof nested === 'object' && nested !== null && !Array.isArray(nested)) {
+            const secondKey = Object.keys(nested)[0]
+            if (secondKey) return `.${firstKey}.${secondKey}`
+          }
+          if (Array.isArray(nested) && nested.length > 0 && typeof nested[0] === 'object' && nested[0] !== null) {
+            const itemKey = Object.keys(nested[0])[0]
+            if (itemKey) return `.${firstKey}[*].${itemKey}`
+          }
+          return `.${firstKey}`
+        }
+      }
+    } catch {
+      // invalid JSON
+    }
+    return '.store.book[*].title'
+  }, [json, hasJson])
 
   useEffect(() => {
     if (hasExpression && hasJson) evaluate(json)
@@ -88,7 +117,7 @@ export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function Qu
               value={query.expression.startsWith('$') ? query.expression.slice(1) : query.expression}
               onChange={(e) => setExpression('$' + e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder=".store.book[*].title"
+              placeholder={dynamicPlaceholder}
               spellCheck={false}
             />
             {hasExpression && (

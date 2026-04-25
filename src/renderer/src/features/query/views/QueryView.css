@@ -137,7 +137,7 @@
 .query-input-prefix {
   padding: 0 var(--ds-spacing-2);
   font-family: var(--ds-font-code);
-  font-size: var(--ds-font-size-body-sm);
+  font-size: var(--ds-font-size-label-sm);
   color: var(--ds-color-primary);
   font-weight: 600;
   flex-shrink: 0;
@@ -150,7 +150,7 @@
   border: none;
   outline: none;
   font-family: var(--ds-font-code);
-  font-size: var(--ds-font-size-body-sm);
+  font-size: var(--ds-font-size-label-sm);
   color: var(--ds-color-on-surface);
   padding: 6px var(--ds-spacing-1) 6px 0;
   min-width: 0;
