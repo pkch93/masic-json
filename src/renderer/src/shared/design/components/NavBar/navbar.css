@@ -9,6 +9,35 @@
   -webkit-app-region: drag;
 }
 
+.ds-navbar__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--ds-spacing-1);
+  -webkit-app-region: no-drag;
+}
+
+.ds-navbar__theme-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ds-radius-sm);
+  font-size: 0.875rem;
+  color: var(--ds-color-on-surface-variant);
+  transition: color 0.15s, background-color 0.15s;
+  line-height: 1;
+}
+
+.ds-navbar__theme-btn:hover {
+  color: var(--ds-color-on-surface);
+  background-color: var(--ds-color-surface-container-high);
+}
+
 .ds-navbar__title {
   display: flex;
   align-items: center;

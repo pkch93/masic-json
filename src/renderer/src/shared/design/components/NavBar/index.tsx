@@ -11,12 +11,16 @@ interface NavBarProps {
   tabs?: NavTab[]
   activeTab?: string
   onTabChange?: (id: string) => void
+  darkMode?: boolean
+  onToggleDarkMode?: () => void
 }
 
 export const NavBar: React.FC<NavBarProps> = ({
   tabs = [],
   activeTab,
-  onTabChange
+  onTabChange,
+  darkMode = true,
+  onToggleDarkMode
 }) => {
   return (
     <nav className="ds-navbar">
@@ -33,6 +37,16 @@ export const NavBar: React.FC<NavBarProps> = ({
             {tab.label}
           </button>
         ))}
+      </div>
+      <div className="ds-navbar__actions">
+        <button
+          className="ds-navbar__theme-btn"
+          onClick={onToggleDarkMode}
+          title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {darkMode ? '☀' : '☾'}
+        </button>
       </div>
     </nav>
   )

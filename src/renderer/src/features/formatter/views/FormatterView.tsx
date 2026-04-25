@@ -197,8 +197,6 @@ export function FormatterView({
                 >
                   Key Mapping
                 </button>
-                <button className="formatter-sidebar__nav-item" disabled>Themes</button>
-                <button className="formatter-sidebar__nav-item" disabled>Plugins</button>
               </nav>
 
               {configNav === 'editor' && (

@@ -1,5 +1,5 @@
 :root {
-  /* Colors - The Synthetic Luminal */
+  /* Colors - The Synthetic Luminal (Dark) */
   --ds-color-background: #0e0e10;
   --ds-color-primary: #b89fff;
   --ds-color-primary-container: #ac8eff;
@@ -62,4 +62,41 @@
   --ds-blur-glass: 20px;
   --ds-opacity-glass: 0.7;
   --ds-shadow-ambient: 0 0 32px 0 rgba(184, 159, 255, 0.08);
+}
+
+[data-theme="light"] {
+  /* Colors - The Synthetic Luminal (Light) */
+  --ds-color-background: #f8f6fb;
+  --ds-color-primary: #7c3aed;
+  --ds-color-primary-container: #6d28d9;
+  --ds-color-secondary: #0891b2;
+  --ds-color-secondary-container: #0e7490;
+  --ds-color-tertiary: #db2777;
+  --ds-color-tertiary-container: #be185d;
+
+  /* Surfaces */
+  --ds-color-surface: #f8f6fb;
+  --ds-color-surface-bright: #ffffff;
+  --ds-color-surface-container-lowest: #ffffff;
+  --ds-color-surface-container-low: #f3f0f8;
+  --ds-color-surface-container: #ede8f5;
+  --ds-color-surface-container-high: #e5dff0;
+  --ds-color-surface-container-highest: #dcd6eb;
+
+  /* On Colors (Text) */
+  --ds-color-on-background: #1a1525;
+  --ds-color-on-surface: #1a1525;
+  --ds-color-on-surface-variant: #6b6577;
+  --ds-color-on-primary: #ffffff;
+  --ds-color-on-secondary: #ffffff;
+  --ds-color-on-tertiary: #ffffff;
+
+  /* Outlines & Utilities */
+  --ds-color-outline: #9991a4;
+  --ds-color-outline-variant: #ccc7d9;
+  --ds-color-surface-tint: #7c3aed;
+  --ds-color-error: #dc2626;
+
+  /* Effects */
+  --ds-shadow-ambient: 0 0 32px 0 rgba(124, 58, 237, 0.08);
 }
