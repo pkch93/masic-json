@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react'
 import { Button } from '../../../shared/design'
 import { useSortViewModel } from '../viewmodels/useSortViewModel'
 import './SortView.css'
@@ -7,10 +7,22 @@ interface SortViewProps {
   json: string
 }
 
-export function SortView({ json }: SortViewProps): React.JSX.Element {
+export interface SortViewHandle {
+  focus: () => void
+}
+
+export const SortView = forwardRef<SortViewHandle, SortViewProps>(function SortView(
+  { json },
+  ref
+): React.JSX.Element {
   const { options, result, addKey, removeKey, updateKey, setPath, setDirection, sort, reset } =
     useSortViewModel()
   const [showPath, setShowPath] = useState(false)
+  const firstInputRef = useRef<HTMLInputElement>(null)
+
+  useImperativeHandle(ref, () => ({
+    focus: () => firstInputRef.current?.focus()
+  }))
 
   const hasJson = json.trim().length > 0
   const hasAnyKey = options.keys.some((k) => k.key.trim().length > 0)
@@ -65,6 +77,7 @@ export function SortView({ json }: SortViewProps): React.JSX.Element {
             <div key={index} className="sort-key-row">
               <span className="sort-key-priority">{index + 1}</span>
               <input
+                ref={index === 0 ? firstInputRef : undefined}
                 className="sort-key-input"
                 value={sortKey.key}
                 onChange={(e) => updateKey(index, { key: e.target.value })}
@@ -119,4 +132,4 @@ export function SortView({ json }: SortViewProps): React.JSX.Element {
       </div>
     </div>
   )
-}
+})

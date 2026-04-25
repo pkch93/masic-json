@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import { EditorState } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { json } from '@codemirror/lang-json'
@@ -12,6 +12,10 @@ interface JsonEditorProps {
   value: string
   onChange: (value: string) => void
   placeholder?: string
+}
+
+export interface JsonEditorHandle {
+  focus: () => void
 }
 
 const highlightStyle = HighlightStyle.define([
@@ -78,10 +82,17 @@ const editorTheme = EditorView.theme(
   { dark: true }
 )
 
-export function JsonEditor({ value, onChange, placeholder }: JsonEditorProps): React.JSX.Element {
+export const JsonEditor = forwardRef<JsonEditorHandle, JsonEditorProps>(function JsonEditor(
+  { value, onChange, placeholder },
+  ref
+): React.JSX.Element {
   const hostRef = useRef<HTMLDivElement>(null)
   const viewRef = useRef<EditorView | null>(null)
   const onChangeRef = useRef(onChange)
+
+  useImperativeHandle(ref, () => ({
+    focus: () => viewRef.current?.focus()
+  }))
 
   useEffect(() => {
     onChangeRef.current = onChange
@@ -134,4 +145,4 @@ export function JsonEditor({ value, onChange, placeholder }: JsonEditorProps): R
   }, [value])
 
   return <div ref={hostRef} className="ds-json-editor" />
-}
+})

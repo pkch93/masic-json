@@ -1,13 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { Button, Toggle, Stepper } from '../../../shared/design'
 import { JsonEditor } from '../components/JsonEditor'
+import type { JsonEditorHandle } from '../components/JsonEditor'
 import { JsonTreeView } from '../components/JsonTreeView'
 import { CommandPalette } from '../components/CommandPalette'
 import type { PaletteAction } from '../components/CommandPalette'
 import { QueryView } from '../../query/views/QueryView'
+import type { QueryViewHandle } from '../../query/views/QueryView'
 import { SortView } from '../../sort/views/SortView'
+import type { SortViewHandle } from '../../sort/views/SortView'
 import { useFormatterViewModel } from '../viewmodels/useFormatterViewModel'
-import { useDoubleShift } from '../viewmodels/useDoubleShift'
+import { useGlobalKeyBindings } from '../viewmodels/useGlobalKeyBindings'
+import { useKeymapViewModel } from '../keymap/useKeymapViewModel'
+import { KeyMappingPanel } from '../keymap/KeyMappingPanel'
 import type { IndentSize } from '../models/formatter.model'
 import type { HistoryEntry, HistoryOperation } from '../../history/models/history.model'
 import { formatRelativeTime, formatByteSize } from '../../history/services/history.service'
@@ -15,6 +20,7 @@ import './FormatterView.css'
 
 type BottomTab = 'tree' | 'query' | 'sort'
 type SidebarTab = 'config' | 'history'
+type ConfigNav = 'editor' | 'keymap'
 
 interface FormatterViewProps {
   onSave?: (json: string, operation: HistoryOperation) => void
@@ -51,13 +57,39 @@ export function FormatterView({
     setDoubleQuotes
   } = useFormatterViewModel(onSave)
 
+  const keymapVM = useKeymapViewModel()
+
   const [bottomTab, setBottomTab] = useState<BottomTab>('tree')
   const [sidebarTab, setSidebarTab] = useState<SidebarTab>('config')
+  const [configNav, setConfigNav] = useState<ConfigNav>('editor')
   const [bottomCollapsed, setBottomCollapsed] = useState(false)
   const [bottomHeight, setBottomHeight] = useState(DEFAULT_BOTTOM_HEIGHT)
   const [paletteOpen, setPaletteOpen] = useState(false)
 
-  useDoubleShift(() => setPaletteOpen((prev) => !prev))
+  const editorRef = useRef<JsonEditorHandle>(null)
+  const queryRef = useRef<QueryViewHandle>(null)
+  const sortRef = useRef<SortViewHandle>(null)
+
+  const focusBottomTab = useCallback((tab: BottomTab) => {
+    setBottomCollapsed(false)
+    setBottomTab(tab)
+    if (tab === 'query') {
+      setTimeout(() => queryRef.current?.focus(), 50)
+    } else if (tab === 'sort') {
+      setTimeout(() => sortRef.current?.focus(), 50)
+    }
+  }, [])
+
+  useGlobalKeyBindings(keymapVM.config, {
+    toggle: () => setPaletteOpen((prev) => !prev),
+    format,
+    minify,
+    clear,
+    focusEditor: () => editorRef.current?.focus(),
+    focusTree: () => focusBottomTab('tree'),
+    focusQuery: () => focusBottomTab('query'),
+    focusSort: () => focusBottomTab('sort')
+  })
 
   const paletteActions: PaletteAction[] = [
     { id: 'format', label: 'Format JSON', icon: 'format_align_left', onExecute: format },
@@ -126,13 +158,12 @@ export function FormatterView({
             </div>
           </div>
           <div className="formatter-editor-area">
-            <JsonEditor value={rawJson} onChange={setRawJson} placeholder='{"key": "value"}' />
+            <JsonEditor ref={editorRef} value={rawJson} onChange={setRawJson} placeholder='{"key": "value"}' />
           </div>
         </div>
 
         {/* Right sidebar */}
         <aside className="formatter-sidebar">
-          {/* Panel toggle */}
           <div className="formatter-sidebar__toggle">
             <button
               className={`formatter-sidebar__toggle-btn ${sidebarTab === 'config' ? 'formatter-sidebar__toggle-btn--active' : ''}`}
@@ -154,30 +185,51 @@ export function FormatterView({
           {sidebarTab === 'config' && (
             <>
               <nav className="formatter-sidebar__nav">
-                <button className="formatter-sidebar__nav-item formatter-sidebar__nav-item--active">
+                <button
+                  className={`formatter-sidebar__nav-item ${configNav === 'editor' ? 'formatter-sidebar__nav-item--active' : ''}`}
+                  onClick={() => setConfigNav('editor')}
+                >
                   Editor Config
                 </button>
-                <button className="formatter-sidebar__nav-item" disabled>Key Mapping</button>
+                <button
+                  className={`formatter-sidebar__nav-item ${configNav === 'keymap' ? 'formatter-sidebar__nav-item--active' : ''}`}
+                  onClick={() => setConfigNav('keymap')}
+                >
+                  Key Mapping
+                </button>
                 <button className="formatter-sidebar__nav-item" disabled>Themes</button>
                 <button className="formatter-sidebar__nav-item" disabled>Plugins</button>
               </nav>
 
-              <div className="formatter-sidebar__settings">
-                <div className="formatter-setting-row">
-                  <span className="formatter-setting-label">Indent Size</span>
-                  <Stepper value={indent} min={2} max={4} step={2} onChange={(v) => setIndent(v as IndentSize)} />
-                </div>
-                <div className="formatter-setting-row">
-                  <span className="formatter-setting-label">Double Quotes</span>
-                  <Toggle checked={doubleQuotes} onChange={setDoubleQuotes} />
-                </div>
-              </div>
+              {configNav === 'editor' && (
+                <>
+                  <div className="formatter-sidebar__settings">
+                    <div className="formatter-setting-row">
+                      <span className="formatter-setting-label">Indent Size</span>
+                      <Stepper value={indent} min={2} max={4} step={2} onChange={(v) => setIndent(v as IndentSize)} />
+                    </div>
+                    <div className="formatter-setting-row">
+                      <span className="formatter-setting-label">Double Quotes</span>
+                      <Toggle checked={doubleQuotes} onChange={setDoubleQuotes} />
+                    </div>
+                  </div>
+                  <div className="formatter-sidebar__footer">
+                    <Button variant="primary" size="sm" onClick={saveConfig} className="formatter-sidebar__save-btn">
+                      Save Config
+                    </Button>
+                  </div>
+                </>
+              )}
 
-              <div className="formatter-sidebar__footer">
-                <Button variant="primary" size="sm" onClick={saveConfig} className="formatter-sidebar__save-btn">
-                  Save Config
-                </Button>
-              </div>
+              {configNav === 'keymap' && (
+                <KeyMappingPanel
+                  config={keymapVM.config}
+                  dirty={keymapVM.dirty}
+                  onUpdate={keymapVM.updateBinding}
+                  onSave={keymapVM.save}
+                  onReset={keymapVM.resetDefaults}
+                />
+              )}
             </>
           )}
 
@@ -277,8 +329,8 @@ export function FormatterView({
                 <JsonTreeView value={rawJson} />
               </div>
             )}
-            {bottomTab === 'query' && <QueryView json={rawJson} />}
-            {bottomTab === 'sort' && <SortView json={rawJson} />}
+            {bottomTab === 'query' && <QueryView ref={queryRef} json={rawJson} />}
+            {bottomTab === 'sort' && <SortView ref={sortRef} json={rawJson} />}
           </div>
         )}
       </div>

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import { Button } from '../../../shared/design'
 import { useQueryViewModel } from '../viewmodels/useQueryViewModel'
 import './QueryView.css'
@@ -7,9 +7,20 @@ interface QueryViewProps {
   json: string
 }
 
-export function QueryView({ json }: QueryViewProps): React.JSX.Element {
+export interface QueryViewHandle {
+  focus: () => void
+}
+
+export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function QueryView(
+  { json },
+  ref
+): React.JSX.Element {
   const { query, result, setExpression, evaluate, reset } = useQueryViewModel()
   const inputRef = useRef<HTMLInputElement>(null)
+
+  useImperativeHandle(ref, () => ({
+    focus: () => inputRef.current?.focus()
+  }))
 
   const hasJson = json.trim().length > 0
   const hasExpression = query.expression.trim().length > 0
@@ -116,4 +127,4 @@ export function QueryView({ json }: QueryViewProps): React.JSX.Element {
       </div>
     </div>
   )
-}
+})
