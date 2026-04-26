@@ -1,4 +1,4 @@
-import { useEffect, useRef, useImperativeHandle, useMemo, forwardRef } from 'react'
+import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import { Button } from '../../../shared/design'
 import { useQueryViewModel } from '../viewmodels/useQueryViewModel'
 import './QueryView.css'
@@ -11,11 +11,19 @@ export interface QueryViewHandle {
   focus: () => void
 }
 
+const EXAMPLE_EXPRESSIONS = [
+  { expr: '$.*', label: '루트 값 전체' },
+  { expr: '$..name', label: '모든 name' },
+  { expr: '$[0]', label: '첫 번째 요소' },
+  { expr: '$[?(@.price<10)]', label: '조건 필터' },
+] as const
+
 export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function QueryView(
   { json },
   ref
 ): React.JSX.Element {
-  const { query, result, setExpression, evaluate, reset } = useQueryViewModel()
+  const { query, displayExpression, expressionPlaceholder, result, setSuffix, evaluate, reset } =
+    useQueryViewModel(json)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useImperativeHandle(ref, () => ({
@@ -25,38 +33,9 @@ export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function Qu
   const hasJson = json.trim().length > 0
   const hasExpression = query.expression.trim().length > 0
 
-  const dynamicPlaceholder = useMemo(() => {
-    if (!hasJson) return '.store.book[*].title'
-    try {
-      const parsed = JSON.parse(json)
-      if (Array.isArray(parsed) && parsed.length > 0 && typeof parsed[0] === 'object' && parsed[0] !== null) {
-        const firstKey = Object.keys(parsed[0])[0]
-        if (firstKey) return `[*].${firstKey}`
-      }
-      if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
-        const firstKey = Object.keys(parsed)[0]
-        if (firstKey) {
-          const nested = parsed[firstKey]
-          if (typeof nested === 'object' && nested !== null && !Array.isArray(nested)) {
-            const secondKey = Object.keys(nested)[0]
-            if (secondKey) return `.${firstKey}.${secondKey}`
-          }
-          if (Array.isArray(nested) && nested.length > 0 && typeof nested[0] === 'object' && nested[0] !== null) {
-            const itemKey = Object.keys(nested[0])[0]
-            if (itemKey) return `.${firstKey}[*].${itemKey}`
-          }
-          return `.${firstKey}`
-        }
-      }
-    } catch {
-      // invalid JSON
-    }
-    return '.store.book[*].title'
-  }, [json, hasJson])
-
   useEffect(() => {
     if (hasExpression && hasJson) evaluate(json)
-  }, [json, query.expression, hasExpression, hasJson, evaluate])
+  }, [json, query.expression, evaluate])
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') evaluate(json)
@@ -68,7 +47,6 @@ export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function Qu
 
   return (
     <div className="query-layout">
-      {/* LEFT: output */}
       <div className="query-output">
         {!hasJson && (
           <div className="query-output__empty">JSON 에디터에 데이터를 입력하면 쿼리를 실행할 수 있습니다.</div>
@@ -104,7 +82,6 @@ export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function Qu
         )}
       </div>
 
-      {/* RIGHT: controls sidebar */}
       <div className="query-sidebar">
         <div className="query-sidebar__header">JSON PATH</div>
 
@@ -114,10 +91,10 @@ export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function Qu
             <input
               ref={inputRef}
               className="query-input"
-              value={query.expression.startsWith('$') ? query.expression.slice(1) : query.expression}
-              onChange={(e) => setExpression('$' + e.target.value)}
+              value={displayExpression}
+              onChange={(e) => setSuffix(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={dynamicPlaceholder}
+              placeholder={expressionPlaceholder}
               spellCheck={false}
             />
             {hasExpression && (
@@ -128,13 +105,8 @@ export const QueryView = forwardRef<QueryViewHandle, QueryViewProps>(function Qu
           {!hasExpression && (
             <div className="query-examples">
               <span className="query-examples-label">예시</span>
-              {[
-                { expr: '$.*', label: '루트 값 전체' },
-                { expr: '$..name', label: '모든 name' },
-                { expr: '$[0]', label: '첫 번째 요소' },
-                { expr: '$[?(@.price<10)]', label: '조건 필터' },
-              ].map(({ expr, label }) => (
-                <button key={expr} className="query-example-chip" onClick={() => setExpression(expr)}>
+              {EXAMPLE_EXPRESSIONS.map(({ expr, label }) => (
+                <button key={expr} className="query-example-chip" onClick={() => setSuffix(expr.slice(1))}>
                   <code>{expr}</code>
                   <span>{label}</span>
                 </button>

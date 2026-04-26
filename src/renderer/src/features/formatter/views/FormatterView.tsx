@@ -144,7 +144,7 @@ export function FormatterView({
           <div className="formatter-file-tab">
             <div className="formatter-file-tab__info">
               <span className="formatter-file-tab__icon" />
-              <span className="formatter-file-tab__name">payload.json</span>
+              <span className="formatter-file-tab__name">json</span>
             </div>
             <div className="formatter-file-tab__actions">
               {hasTrimmedValue && (

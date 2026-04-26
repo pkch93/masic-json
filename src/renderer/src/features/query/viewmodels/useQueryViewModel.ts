@@ -1,30 +1,39 @@
 import { useState, useCallback } from 'react'
 import type { JsonPathQuery, QueryResult } from '../models/query.model'
 import { evaluateJsonPath } from '../services/query.service'
+import { inferPlaceholderFromJson } from '../services/query.utils'
 
 interface QueryViewModel {
   query: JsonPathQuery
+  displayExpression: string
+  expressionPlaceholder: string
   result: QueryResult | null
-  setExpression: (expression: string) => void
+  setSuffix: (suffix: string) => void
   evaluate: (json: string) => void
   reset: () => void
 }
 
-export function useQueryViewModel(): QueryViewModel {
+export function useQueryViewModel(json: string): QueryViewModel {
   const [query, setQuery] = useState<JsonPathQuery>({ expression: '' })
   const [result, setResult] = useState<QueryResult | null>(null)
 
-  const setExpression = useCallback((expression: string) => {
-    setQuery({ expression })
+  const displayExpression = query.expression.startsWith('$')
+    ? query.expression.slice(1)
+    : query.expression
+
+  const expressionPlaceholder = json.trim() ? inferPlaceholderFromJson(json) : '.store.book[*].title'
+
+  const setSuffix = useCallback((suffix: string) => {
+    setQuery({ expression: '$' + suffix })
   }, [])
 
   const evaluate = useCallback(
-    (json: string) => {
-      if (!json.trim()) {
+    (jsonStr: string) => {
+      if (!jsonStr.trim()) {
         setResult(null)
         return
       }
-      setResult(evaluateJsonPath(json, query.expression))
+      setResult(evaluateJsonPath(jsonStr, query.expression))
     },
     [query.expression]
   )
@@ -34,5 +43,5 @@ export function useQueryViewModel(): QueryViewModel {
     setResult(null)
   }, [])
 
-  return { query, result, setExpression, evaluate, reset }
+  return { query, displayExpression, expressionPlaceholder, result, setSuffix, evaluate, reset }
 }
