@@ -5,7 +5,7 @@ import { json } from '@codemirror/lang-json'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags as t } from '@lezer/highlight'
 import { basicSetup } from 'codemirror'
-import { jsonLinter } from '../services/jsonLinter.service'
+import { jsonLinter } from './jsonLinter.service'
 import './JsonEditor.css'
 
 interface JsonEditorProps {
