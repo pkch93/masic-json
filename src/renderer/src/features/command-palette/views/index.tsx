@@ -1,12 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
-import './CommandPalette.css'
-
-export interface PaletteAction {
-  id: string
-  label: string
-  icon: string
-  onExecute: () => void
-}
+import { useRef, useEffect } from 'react'
+import { useCommandPaletteViewModel } from '../viewmodels/useCommandPaletteViewModel'
+import type { PaletteAction } from '../models/command-palette.model'
+import './style.css'
 
 interface CommandPaletteProps {
   open: boolean
@@ -15,46 +10,15 @@ interface CommandPaletteProps {
 }
 
 export function CommandPalette({ open, onClose, actions }: CommandPaletteProps): React.JSX.Element | null {
-  const [query, setQuery] = useState('')
-  const [activeIndex, setActiveIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
-
-  const filtered = actions.filter((a) =>
-    a.label.toLowerCase().includes(query.toLowerCase())
-  )
+  const { query, setQuery, activeIndex, setActiveIndex, filtered, handleKeyDown } =
+    useCommandPaletteViewModel(actions, open, onClose)
 
   useEffect(() => {
     if (open) {
-      setQuery('')
-      setActiveIndex(0)
       requestAnimationFrame(() => inputRef.current?.focus())
     }
   }, [open])
-
-  useEffect(() => {
-    setActiveIndex(0)
-  }, [query])
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-      } else if (e.key === 'ArrowDown') {
-        e.preventDefault()
-        setActiveIndex((i) => Math.min(i + 1, filtered.length - 1))
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault()
-        setActiveIndex((i) => Math.max(i - 1, 0))
-      } else if (e.key === 'Enter') {
-        const action = filtered[activeIndex]
-        if (action) {
-          action.onExecute()
-          onClose()
-        }
-      }
-    },
-    [filtered, activeIndex, onClose]
-  )
 
   if (!open) return null
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import './text.css'
+import './style.css'
 
 interface TextProps {
   children: React.ReactNode

@@ -1,5 +1,5 @@
 import React from 'react'
-import './stepper.css'
+import './style.css'
 
 interface StepperProps {
   value: number

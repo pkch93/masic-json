@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
-import type { ActionId, KeyCombo, KeyMappingConfig } from './keymap.model'
-import { ACTION_LABELS, ACTION_ORDER } from './keymap.model'
-import { formatKeyCombo } from './keymap.service'
-import './KeyMappingPanel.css'
+import type { ActionId, KeyCombo, KeyMappingConfig } from '../models/keymap.model'
+import { ACTION_LABELS, ACTION_ORDER } from '../models/keymap.model'
+import { formatKeyCombo } from '../services/keymap.service'
+import './style.css'
 
 interface KeyMappingPanelProps {
   config: KeyMappingConfig

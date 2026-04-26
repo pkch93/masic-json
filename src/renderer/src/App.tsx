@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { NavBar } from './shared/design'
-import { FormatterView } from './features/formatter/views/FormatterView'
+import { FormatterView } from './features/formatter/views'
 import { useHistoryViewModel } from './features/history/viewmodels/useHistoryViewModel'
 
 function App(): React.JSX.Element {

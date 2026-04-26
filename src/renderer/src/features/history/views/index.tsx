@@ -1,7 +1,7 @@
 import { Button } from '../../../shared/design'
 import type { HistoryEntry } from '../models/history.model'
 import { formatRelativeTime, formatByteSize } from '../services/history.service'
-import './HistoryView.css'
+import './style.css'
 
 interface HistoryViewProps {
   entries: HistoryEntry[]

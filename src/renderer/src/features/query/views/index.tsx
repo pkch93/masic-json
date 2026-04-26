@@ -1,7 +1,7 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
 import { Button } from '../../../shared/design'
 import { useQueryViewModel } from '../viewmodels/useQueryViewModel'
-import './QueryView.css'
+import './style.css'
 
 interface QueryViewProps {
   json: string

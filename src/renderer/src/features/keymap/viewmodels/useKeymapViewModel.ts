@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react'
-import type { ActionId, KeyCombo, KeyMappingConfig } from './keymap.model'
-import { getDefaultKeymap, loadKeymapConfig, saveKeymapConfig } from './keymap.service'
+import type { ActionId, KeyCombo, KeyMappingConfig } from '../models/keymap.model'
+import { getDefaultKeymap, loadKeymapConfig, saveKeymapConfig } from '../services/keymap.service'
 
 export interface KeymapViewModel {
   config: KeyMappingConfig

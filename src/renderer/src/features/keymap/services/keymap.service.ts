@@ -1,5 +1,5 @@
-import type { KeyCombo, KeyMappingConfig, SingleKeyCombo } from './keymap.model'
-import { isDoubleCombo } from './keymap.model'
+import type { KeyCombo, KeyMappingConfig, SingleKeyCombo } from '../models/keymap.model'
+import { isDoubleCombo } from '../models/keymap.model'
 
 const STORAGE_KEY = 'masic-json:keymap-config'
 

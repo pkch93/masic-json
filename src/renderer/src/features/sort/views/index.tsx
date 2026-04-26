@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react'
 import { Button } from '../../../shared/design'
 import { useSortViewModel } from '../viewmodels/useSortViewModel'
-import './SortView.css'
+import './style.css'
 
 interface SortViewProps {
   json: string

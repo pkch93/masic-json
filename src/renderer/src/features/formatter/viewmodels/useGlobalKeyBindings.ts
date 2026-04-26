@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
-import type { KeyMappingConfig } from '../../keymap/keymap.model'
-import { isDoubleCombo } from '../../keymap/keymap.model'
-import { matchesKeyCombo } from '../../keymap/keymap.service'
+import type { KeyMappingConfig } from '../../keymap/models/keymap.model'
+import { isDoubleCombo } from '../../keymap/models/keymap.model'
+import { matchesKeyCombo } from '../../keymap/services/keymap.service'
 
 export interface GlobalKeyActions {
   toggle: () => void
