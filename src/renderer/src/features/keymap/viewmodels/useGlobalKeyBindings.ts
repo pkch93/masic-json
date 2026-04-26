@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
-import type { KeyMappingConfig } from '../../keymap/models/keymap.model'
-import { isDoubleCombo } from '../../keymap/models/keymap.model'
-import { matchesKeyCombo } from '../../keymap/services/keymap.service'
+import type { KeyMappingConfig } from '../models/keymap.model'
+import { isDoubleCombo } from '../models/keymap.model'
+import { matchesKeyCombo } from '../services/keymap.service'
 
 export interface GlobalKeyActions {
   toggle: () => void
@@ -54,6 +54,8 @@ export function useGlobalKeyBindings(config: KeyMappingConfig, actions: GlobalKe
         ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(target.tagName) ||
         target.isContentEditable
 
+      if (isInteractive) return
+
       if (matchesKeyCombo(e, cfg.format)) {
         e.preventDefault()
         acts.format()
@@ -90,7 +92,7 @@ export function useGlobalKeyBindings(config: KeyMappingConfig, actions: GlobalKe
         return
       }
 
-      if (!isInteractive && matchesKeyCombo(e, cfg.focusEditor)) {
+      if (matchesKeyCombo(e, cfg.focusEditor)) {
         e.preventDefault()
         acts.focusEditor()
       }

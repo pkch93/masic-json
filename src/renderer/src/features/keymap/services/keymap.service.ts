@@ -4,7 +4,7 @@ import { isDoubleCombo } from '../models/keymap.model'
 const STORAGE_KEY = 'masic-json:keymap-config'
 
 export function getIsMac(): boolean {
-  return navigator.platform.toUpperCase().includes('MAC')
+  return navigator.userAgent.toUpperCase().includes('MAC')
 }
 
 export function getDefaultKeymap(): KeyMappingConfig {
@@ -13,7 +13,7 @@ export function getDefaultKeymap(): KeyMappingConfig {
     toggle: { key: 'Shift', double: true, intervalMs: 300 },
     format: { key: 'f', meta: mac, ctrl: false, alt: !mac, shift: false },
     minify: { key: 'm', meta: mac, ctrl: false, alt: !mac, shift: false },
-    clear: { key: 'c', meta: mac, ctrl: false, alt: !mac, shift: false },
+    clear: { key: 'Backspace', meta: mac, ctrl: false, alt: !mac, shift: false },
     focusEditor: { key: 'Enter', meta: false, ctrl: false, alt: false, shift: false },
     focusTree: { key: 'F1', meta: false, ctrl: false, alt: false, shift: false },
     focusQuery: { key: 'F2', meta: false, ctrl: false, alt: false, shift: false },

@@ -28,16 +28,7 @@ export type ActionId =
   | 'focusQuery'
   | 'focusSort'
 
-export interface KeyMappingConfig {
-  toggle: KeyCombo
-  format: KeyCombo
-  minify: KeyCombo
-  clear: KeyCombo
-  focusEditor: KeyCombo
-  focusTree: KeyCombo
-  focusQuery: KeyCombo
-  focusSort: KeyCombo
-}
+export type KeyMappingConfig = Record<ActionId, KeyCombo>
 
 export const ACTION_LABELS: Record<ActionId, string> = {
   toggle: 'Toggle Palette',
