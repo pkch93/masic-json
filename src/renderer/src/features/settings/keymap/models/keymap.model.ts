@@ -23,6 +23,7 @@ export type ActionId =
   | 'format'
   | 'minify'
   | 'clear'
+  | 'find'
   | 'focusEditor'
   | 'focusTree'
   | 'focusQuery'
@@ -35,6 +36,7 @@ export const ACTION_LABELS: Record<ActionId, string> = {
   format: 'Format JSON',
   minify: 'Minify JSON',
   clear: 'Clear',
+  find: 'Find in Editor',
   focusEditor: 'Focus Editor',
   focusTree: 'Tree View',
   focusQuery: 'JSON Path',
@@ -46,6 +48,7 @@ export const ACTION_ORDER: ActionId[] = [
   'format',
   'minify',
   'clear',
+  'find',
   'focusEditor',
   'focusTree',
   'focusQuery',

@@ -5,6 +5,7 @@ import { json } from '@codemirror/lang-json'
 import { HighlightStyle, syntaxHighlighting } from '@codemirror/language'
 import { tags as t } from '@lezer/highlight'
 import { basicSetup } from 'codemirror'
+import { openSearchPanel } from '@codemirror/search'
 import { jsonLinter } from '../services/jsonLinter.service'
 import './style.css'
 
@@ -16,6 +17,7 @@ interface JsonEditorProps {
 
 export interface JsonEditorHandle {
   focus: () => void
+  find: () => void
 }
 
 const highlightStyle = HighlightStyle.define([
@@ -91,7 +93,8 @@ export const JsonEditor = forwardRef<JsonEditorHandle, JsonEditorProps>(function
   const onChangeRef = useRef(onChange)
 
   useImperativeHandle(ref, () => ({
-    focus: () => viewRef.current?.focus()
+    focus: () => viewRef.current?.focus(),
+    find: () => { if (viewRef.current) openSearchPanel(viewRef.current) }
   }))
 
   useEffect(() => {

@@ -42,6 +42,7 @@ function App(): React.JSX.Element {
     format: () => formatterRef.current?.format(),
     minify: () => formatterRef.current?.minify(),
     clear: () => formatterRef.current?.clear(),
+    find: () => formatterRef.current?.find(),
     focusEditor: () => formatterRef.current?.focusEditor(),
     focusTree: () => formatterRef.current?.focusTree(),
     focusQuery: () => formatterRef.current?.focusQuery(),

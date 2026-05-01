@@ -8,6 +8,7 @@ export interface GlobalKeyActions {
   format: () => void
   minify: () => void
   clear: () => void
+  find: () => void
   focusEditor: () => void
   focusTree: () => void
   focusQuery: () => void
@@ -53,8 +54,10 @@ export function useGlobalKeyBindings(config: KeyMappingConfig, actions: GlobalKe
       const isInteractive =
         ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(target.tagName) ||
         target.isContentEditable
+      const hasModifier = e.metaKey || e.ctrlKey || e.altKey
+      const isFunctionKey = /^F\d+$/.test(e.key)
 
-      if (isInteractive) return
+      if (isInteractive && !hasModifier && !isFunctionKey) return
 
       if (matchesKeyCombo(e, cfg.format)) {
         e.preventDefault()
@@ -71,6 +74,12 @@ export function useGlobalKeyBindings(config: KeyMappingConfig, actions: GlobalKe
       if (matchesKeyCombo(e, cfg.clear)) {
         e.preventDefault()
         acts.clear()
+        return
+      }
+
+      if (matchesKeyCombo(e, cfg.find)) {
+        e.preventDefault()
+        acts.find()
         return
       }
 

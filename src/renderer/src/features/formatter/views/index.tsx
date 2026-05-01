@@ -23,6 +23,7 @@ export interface FormatterViewHandle {
   format: () => void
   minify: () => void
   clear: () => void
+  find: () => void
   focusEditor: () => void
   focusTree: () => void
   focusQuery: () => void
@@ -95,6 +96,7 @@ export const FormatterView = forwardRef<FormatterViewHandle, FormatterViewProps>
       format,
       minify,
       clear,
+      find: () => editorRef.current?.find(),
       focusEditor: () => editorRef.current?.focus(),
       focusTree: () => focusBottomTab('tree'),
       focusQuery: () => focusBottomTab('query'),

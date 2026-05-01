@@ -11,9 +11,10 @@ export function getDefaultKeymap(): KeyMappingConfig {
   const mac = getIsMac()
   return {
     toggle: { key: 'Shift', double: true, intervalMs: 300 },
-    format: { key: 'f', meta: mac, ctrl: false, alt: !mac, shift: false },
+    format: { key: 'F', meta: false, ctrl: false, alt: false, shift: true },
     minify: { key: 'm', meta: mac, ctrl: false, alt: !mac, shift: false },
     clear: { key: 'Backspace', meta: mac, ctrl: false, alt: !mac, shift: false },
+    find: { key: 'f', meta: mac, ctrl: !mac, alt: false, shift: false },
     focusEditor: { key: 'Enter', meta: false, ctrl: false, alt: false, shift: false },
     focusTree: { key: 'F1', meta: false, ctrl: false, alt: false, shift: false },
     focusQuery: { key: 'F2', meta: false, ctrl: false, alt: false, shift: false },
