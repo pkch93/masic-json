@@ -26,9 +26,10 @@
 | 동작 | macOS | Windows / Linux |
 |---|---|---|
 | Command Palette 열기 | `Shift × 2` | `Shift × 2` |
-| JSON 포맷 | `⌘F` | `Alt+F` |
-| JSON 압축 | `⌘M` | `Alt+M` |
-| 에디터 초기화 | `⌘⌫` | `Alt+Backspace` |
+| JSON 포맷 | `⇧F` | `Shift+F` |
+| JSON 압축 | `⇧M` | `Shift+M` |
+| 에디터 초기화 | `⇧C` | `Shift+C` |
+| 찾기 | `⌘F` | `Ctrl+F` |
 | 에디터 포커스 | `Enter` | `Enter` |
 | Tree View | `F1` | `F1` |
 | JSON Path | `F2` | `F2` |

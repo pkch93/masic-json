@@ -26,9 +26,10 @@ Instantly format messy JSON, visualize it as a tree, or extract exactly what you
 | Action | macOS | Windows / Linux |
 |---|---|---|
 | Open Command Palette | `Shift × 2` | `Shift × 2` |
-| Format JSON | `⌘F` | `Alt+F` |
-| Minify JSON | `⌘M` | `Alt+M` |
-| Clear Editor | `⌘⌫` | `Alt+Backspace` |
+| Format JSON | `⇧F` | `Shift+F` |
+| Minify JSON | `⇧M` | `Shift+M` |
+| Clear Editor | `⇧C` | `Shift+C` |
+| Find | `⌘F` | `Ctrl+F` |
 | Focus Editor | `Enter` | `Enter` |
 | Tree View | `F1` | `F1` |
 | JSON Path | `F2` | `F2` |
