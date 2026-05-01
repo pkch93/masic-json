@@ -50,7 +50,12 @@ function App(): React.JSX.Element {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <NavBar darkMode={darkMode} onToggleDarkMode={() => setDarkMode((prev) => !prev)} />
+      <NavBar
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode((prev) => !prev)}
+        onClose={() => window.electron.ipcRenderer.send('window-close')}
+        onMinimize={() => window.electron.ipcRenderer.send('window-minimize')}
+      />
       <main style={{ flex: 1, minHeight: 0, display: 'flex' }}>
         <FormatterView
           ref={formatterRef}

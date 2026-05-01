@@ -1,3 +1,57 @@
+.ds-navbar__window-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  -webkit-app-region: no-drag;
+  flex-shrink: 0;
+}
+
+.ds-navbar__win-btn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: filter 0.15s;
+}
+
+.ds-navbar__win-btn--close {
+  background-color: #ff5f57;
+}
+
+.ds-navbar__win-btn--minimize {
+  background-color: #febc2e;
+}
+
+.ds-navbar__win-btn::before {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.15s;
+  font-size: 9px;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 700;
+}
+
+.ds-navbar__win-btn--close::before {
+  content: '×';
+  font-size: 11px;
+}
+
+.ds-navbar__win-btn--minimize::before {
+  content: '−';
+}
+
+.ds-navbar__window-controls:hover .ds-navbar__win-btn::before {
+  opacity: 1;
+}
+
 .ds-navbar {
   display: flex;
   align-items: center;

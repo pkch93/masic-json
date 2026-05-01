@@ -13,6 +13,8 @@ interface NavBarProps {
   onTabChange?: (id: string) => void
   darkMode?: boolean
   onToggleDarkMode?: () => void
+  onClose?: () => void
+  onMinimize?: () => void
 }
 
 export const NavBar: React.FC<NavBarProps> = ({
@@ -20,10 +22,16 @@ export const NavBar: React.FC<NavBarProps> = ({
   activeTab,
   onTabChange,
   darkMode = true,
-  onToggleDarkMode
+  onToggleDarkMode,
+  onClose,
+  onMinimize
 }) => {
   return (
     <nav className="ds-navbar">
+      <div className="ds-navbar__window-controls">
+        <button className="ds-navbar__win-btn ds-navbar__win-btn--close" onClick={onClose} aria-label="Close" />
+        <button className="ds-navbar__win-btn ds-navbar__win-btn--minimize" onClick={onMinimize} aria-label="Minimize" />
+      </div>
       <div className="ds-navbar__title">
         <span className="ds-navbar__logo">{'{ }'}</span>
       </div>
