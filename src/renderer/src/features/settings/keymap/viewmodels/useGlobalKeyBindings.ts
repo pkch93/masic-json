@@ -54,7 +54,7 @@ export function useGlobalKeyBindings(config: KeyMappingConfig, actions: GlobalKe
       const isInteractive =
         ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(target.tagName) ||
         target.isContentEditable
-      const hasModifier = e.metaKey || e.ctrlKey || e.altKey
+      const hasModifier = e.metaKey || e.ctrlKey || e.altKey || e.shiftKey
       const isFunctionKey = /^F\d+$/.test(e.key)
 
       if (isInteractive && !hasModifier && !isFunctionKey) return

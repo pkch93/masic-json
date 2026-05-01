@@ -12,8 +12,8 @@ export function getDefaultKeymap(): KeyMappingConfig {
   return {
     toggle: { key: 'Shift', double: true, intervalMs: 300 },
     format: { key: 'F', meta: false, ctrl: false, alt: false, shift: true },
-    minify: { key: 'm', meta: mac, ctrl: false, alt: !mac, shift: false },
-    clear: { key: 'Backspace', meta: mac, ctrl: false, alt: !mac, shift: false },
+    minify: { key: 'M', meta: false, ctrl: false, alt: false, shift: true },
+    clear: { key: 'C', meta: false, ctrl: false, alt: false, shift: true },
     find: { key: 'f', meta: mac, ctrl: !mac, alt: false, shift: false },
     focusEditor: { key: 'Enter', meta: false, ctrl: false, alt: false, shift: false },
     focusTree: { key: 'F1', meta: false, ctrl: false, alt: false, shift: false },
