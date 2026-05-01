@@ -1,4 +1,4 @@
-import { Button } from '../../../shared/design'
+import { Button } from '../../../../shared/design'
 import type { HistoryEntry } from '../models/history.model'
 import { formatRelativeTime, formatByteSize } from '../services/history.service'
 import './style.css'

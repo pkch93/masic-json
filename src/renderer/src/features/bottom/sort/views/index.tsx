@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useImperativeHandle, forwardRef } from 'react'
-import { Button } from '../../../shared/design'
+import { Button } from '../../../../shared/design'
 import { useSortViewModel } from '../viewmodels/useSortViewModel'
 import './style.css'
 

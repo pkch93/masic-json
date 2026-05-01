@@ -1,5 +1,5 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
-import { Button } from '../../../shared/design'
+import { Button } from '../../../../shared/design'
 import { useQueryViewModel } from '../viewmodels/useQueryViewModel'
 import './style.css'
 
