@@ -20,7 +20,13 @@ export function addEntry(
   json: string,
   operation: HistoryOperation
 ): HistoryEntry[] {
-  if (entries[0]?.json === json) return entries
+  const existingIndex = entries.findIndex((e) => e.json === json)
+
+  if (existingIndex !== -1) {
+    const existing = entries[existingIndex]
+    const updated = { ...existing, operation, savedAt: Date.now() }
+    return [updated, ...entries.filter((_, i) => i !== existingIndex)]
+  }
 
   const entry: HistoryEntry = {
     id: crypto.randomUUID(),
